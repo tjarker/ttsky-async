@@ -21,6 +21,37 @@ module tt_um_example (
   assign uio_out = 0;
   assign uio_oe  = 0;
 
+
+  // c element using latch
+
+  wire a;
+  wire b;
+  wire c;
+
+
+  wire set;
+  wire clear;
+  reg latchOut;
+
+  assign set = a && b;
+  assign clear = !a && !b;
+
+  always_latch begin
+    if (rst_n == 1'b0) begin
+      latchOut = 1'b0;  // Reset latch to 0 else
+    end else if (set) begin
+      latchOut = 1'b1;
+    end else if (clear) begin
+      latchOut = 1'b0;
+    end
+  end
+
+  assign c = latchOut;
+  assign a = ui_in[0];  // Example input for a
+  assign b = ui_in[1];  // Example input for b
+  assign uio_out[0] = c;
+
+
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, clk, rst_n, 1'b0};
 

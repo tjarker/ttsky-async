@@ -33,10 +33,10 @@ module tt_um_example (
     case ({a, b})
       2'b00: c = 0;
       2'b11: c = 1;
-      default: c = c; // hold previous value
+      default: ;
     endcase
   end
-  
+
   assign a = ui_in[0];  // Example input for a
   assign b = ui_in[1];  // Example input for b
   assign uio_out[0] = c;

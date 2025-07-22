@@ -26,27 +26,17 @@ module tt_um_example (
 
   wire a;
   wire b;
-  wire c;
+  reg c;
 
 
-  wire set;
-  wire clear;
-  reg latchOut;
-
-  assign set = a && b;
-  assign clear = !a && !b;
-
-  always_latch begin
-    if (rst_n == 1'b0) begin
-      latchOut = 1'b0;  // Reset latch to 0 else
-    end else if (set) begin
-      latchOut = 1'b1;
-    end else if (clear) begin
-      latchOut = 1'b0;
-    end
+  always @(*) begin
+    case ({a, b})
+      2'b00: c = 0;
+      2'b11: c = 1;
+      default: c = c; // hold previous value
+    endcase
   end
-
-  assign c = latchOut;
+  
   assign a = ui_in[0];  // Example input for a
   assign b = ui_in[1];  // Example input for b
   assign uio_out[0] = c;
